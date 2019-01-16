@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+<body>
+<p>Welcome to Fastroy simulator</p>
+<div ng-app="myApp" ng-controller="myCtrl">
+    <h1 ng-repeat="msg in data">{{msg}}</h1>
+</div>
+<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<script>
+    var app = angular.module('myApp', []);
+    var socket = io();
+    app.controller('myCtrl', function($scope) {
+        $scope.data = [];
+        socket.on('chat message', function(msg){
+            console.log(msg);
+            $scope.data.push(JSON.stringify(msg));
+            $scope.$apply();
+        });
+    });
+</script>
+</body>
+
+</html>
